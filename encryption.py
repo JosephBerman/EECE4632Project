@@ -89,6 +89,11 @@ d = modInv(coprime, phi)  #modinv(phi, coprime)
 print("d: ", d)
 
 message = 69
+publicKey = [n, coprime]
+privateKey = [n, d]
+print("Public key", publicKey)
+print("Private key", privateKey)
+
 print("Original Message: ", message)
 encryptedMessage = pow(message, coprime) % n
 print("Encrypted Message: ", encryptedMessage)
