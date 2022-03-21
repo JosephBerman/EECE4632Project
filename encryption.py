@@ -28,8 +28,8 @@ def findLCM(num1, num2):
     return lcm
 
 
-def primesInRange(x, y):
-    prime_list = []
+def primesInRange(x, y):    # Method to calculate all primes in a given range from x to y
+    prime_list = []         # list for storing said prime numbers
     for n in range(x, y):
         isPrime = True
 
@@ -65,8 +65,8 @@ def getDval(phi, e):
 
 primes_list = primesInRange(200, 600)
 
-q = random.choice(primes_list)#	 first prime number
-p = random.choice(primes_list)	 #second prime number
+q = random.choice(primes_list)   # first prime number
+p = random.choice(primes_list)	 # second prime number
 
 n = p * q  # n is the product of the two generated prime numbers
 print("p: ", p)
@@ -81,11 +81,9 @@ print("lcm: ", lcm)
 
 coprime = getCoprime(lcm)
 
-#coprime = 17
-
 print("coprime:", coprime)
 phi = getTotient(p, q)
-d = modInv(coprime, phi)  #modinv(phi, coprime)
+d = modInv(coprime, phi)  # modinv(phi, coprime)
 print("d: ", d)
 
 message = 69
