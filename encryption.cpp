@@ -4,16 +4,25 @@
 //#include <time.h>
 #include <math.h>
 
+
 using namespace std;
 
 #define BITS 16
 
 int gcd(int a, int b) {
-	while (b) {
-		a = b;
-		b = a % b;
-	}
-	return a;
+
+	if(a == 0)
+		return b;
+	if(b == 0)
+		return a;
+
+	if(a==b)
+		return a;
+
+	if(a>b)
+		return gcd(a-b,b);
+	return gcd(a,b-a);
+
 }
 
 int isCoprime(int e, int lcm) {
@@ -32,7 +41,7 @@ int findLCM(int a, int b) {
 		greater = b;
 	}
 	while(true) {
-		if(greater % a == 0 && greater % b == 0) {
+		if(((greater % a) == 0) && ((greater % b) == 0)) {
 			lcm = greater;
 			break;
 		}
@@ -79,7 +88,6 @@ bool isPrime(int n) {
     }
     return true;
 }
-
 int generatePrimeNum(int numBits) {
 	int num;
     int bit_num = pow(2,numBits);
@@ -92,23 +100,29 @@ int generatePrimeNum(int numBits) {
 int test() {
     //srand(time(NULL));
 
-    ap_int<BITS/2> q = 167;
-    ap_int<BITS/2> p = 73;
+    int q = 13;
+    int  p = 11;
 
-    ap_int<BITS> n = p * q;
-
+    int n = p * q;
+    printf("n: %d\n",n);
     int phi = getTotient(p, q);
+    printf("phi: %d\n",phi);
     int lcm = findLCM(p, q);
-
+    printf("lcm: %d\n",lcm);
     int coprime = getCoprime(lcm);
+    printf("coprime: %d\n",coprime);
     int d = modInv(coprime, phi);
 
-    int message = 69;
+    printf("d: %d\n",d);
+    int message = 2;
 
     cout << "Original Message: " << message << endl;
-    int encryptedMessage = (int)pow(message, coprime) % n;
+    double encryptedMessage = fmod((double)pow(message, coprime), n);
     cout << "Encrypted Message: " << encryptedMessage << endl;
-    int decryptedMessage = (int)pow(encryptedMessage, d) % n;
+
+
+   double decryptedMessage = fmod((double)pow(encryptedMessage, d),n);
+
     cout << "Decrypted Message: " << decryptedMessage << endl;
 
 
