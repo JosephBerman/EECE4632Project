@@ -7,34 +7,38 @@ def getKeys():
     private = private.split(', ')
     print(private)
 
-
     keyFile.close()
-
-
 
     return [public, private]
 
-def decrypt(privateKey:list):
+
+def decrypt(privateKey: list):
     message = []
-    decryptFile = open('message.txt', 'r')
+    encryptedFile = open('encryptedMessage.txt', 'r')
 
     while True:
-        character = decryptFile.readline()
+        character = encryptedFile.readline()
         if not character:
             break
 
         message.append(chr(pow(int(character), int(privateKey[1])) % int(privateKey[0])))
 
+    encryptedFile.close()
     return message
+
+
+def printDecryptedMessage(message: list):
+    decryptedFile = open('decryptedMessage.txt', 'w')
+    print(''.join(message), file=decryptedFile)
 
 
 keys = getKeys()
 print(keys)
 publicKey = keys[0]
-publicKey[0]
+
 privateKey = keys[1]
 print("public: ", publicKey)
 print("private: ", privateKey)
 decryptedMessage = decrypt(privateKey)
-
+printDecryptedMessage(decrypt(privateKey))
 print(''.join(decryptedMessage))

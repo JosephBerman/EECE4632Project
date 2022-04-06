@@ -102,7 +102,7 @@ def printKeys(keys: list):
 
 
 def encryptToFile(messageList: list , publicKey: list):
-    encryptFile = open('message.txt', 'w')
+    encryptFile = open('encryptedMessage.txt', 'w')
     for i in range(len(messageList)):
         print(pow(ord(message[i]), publicKey[1]) % publicKey[0], file=encryptFile)
 
