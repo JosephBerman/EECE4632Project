@@ -1,4 +1,5 @@
 #include <ap_int.h>
+
 #include <iostream>
 //#include <stdlib.h>
 //#include <time.h>
@@ -9,19 +10,20 @@ using namespace std;
 
 #define BITS 16
 
+typedef ap_uint<1024> edmessage;
+
 int gcd(int a, int b) {
 
-	if(a == 0)
-		return b;
-	if(b == 0)
-		return a;
+	int c;
+	while(b != 0){
+		c = a&b;
+		a = b;
+		b = c;
 
-	if(a==b)
-		return a;
+	}
 
-	if(a>b)
-		return gcd(a-b,b);
-	return gcd(a,b-a);
+
+	return a;
 
 }
 
@@ -97,32 +99,44 @@ int generatePrimeNum(int numBits) {
 	return num;
 }
 */
+
+edmessage edPow(edmessage base, int toPow){
+	edmessage count;
+	count = 1;
+	for(int i =0; i < toPow; i++){
+		count *= base;
+	}
+	return count;
+}
 int test() {
     //srand(time(NULL));
 
-    int q = 13;
-    int  p = 11;
+    int q = 11;
+    int  p = 7;
 
     int n = p * q;
-    printf("n: %d\n",n);
+
+
     int phi = getTotient(p, q);
-    printf("phi: %d\n",phi);
+
     int lcm = findLCM(p, q);
-    printf("lcm: %d\n",lcm);
+
     int coprime = getCoprime(lcm);
-    printf("coprime: %d\n",coprime);
+
     int d = modInv(coprime, phi);
 
-    printf("d: %d\n",d);
-    int message = 2;
 
-    cout << "Original Message: " << message << endl;
-    double encryptedMessage = fmod((double)pow(message, coprime), n);
+    cout << "d: " << d << endl;
+    edmessage message = 6;
+
+    cout << "Message: " << message << endl;
+   // edmessage encryptedMessage = fmod((edmessage)pow(message, coprime), n);
+    edmessage encryptedMessage = edPow((edmessage)message, coprime) % n;
     cout << "Encrypted Message: " << encryptedMessage << endl;
 
 
-   double decryptedMessage = fmod((double)pow(encryptedMessage, d),n);
-
+  //  edmessage decryptedMessage = fmod((edmessage)pow(encryptedMessage, d),n);
+    edmessage decryptedMessage = edPow(encryptedMessage, d) % n;
     cout << "Decrypted Message: " << decryptedMessage << endl;
 
 
