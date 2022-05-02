@@ -16,9 +16,13 @@ edmessage edPow(int base, int &toPow){
 	return count;
 }
 
-int EDCrypt(int message, int &publicKey, int &nVal){
+void EDCrypt(int message, int Key, int &nVal, int &out){
+#pragma HLS INTERFACE ap_ctrl_none port=return
+#pragma HLS INTERFACE axis port=key
+#pragma HLS INTERFACE axis port=nVal
+#pragma HLS INTERFACE axis port=message
+#pragma HLS INTERFACE axis port=out
 
-
-	return (edPow(message, publicKey) % nVal);
+	out = edPow(message, Key) % nVal;
 
 }
